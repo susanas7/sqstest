@@ -2,7 +2,14 @@
 
 namespace App\Providers;
 
+use App\Handlers\CurrencyUpdatedHandler;
+use App\Handlers\EventSqsQueue;
+use App\Handlers\OkHandler;
+use EventBus\Constants\EventNames;
+use EventBus\Handlers\EventHandler;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
+use Psr\Log\LoggerInterface;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -13,7 +20,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        //
+        $this->app->bind(EventHandler::class, function () {
+            return new EventHandler([
+                'currency:updated' => CurrencyUpdatedHandler::class,
+            ], \app(LoggerInterface::class));
+        });
     }
 
     /**

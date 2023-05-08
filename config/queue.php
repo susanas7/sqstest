@@ -71,6 +71,19 @@ return [
             'after_commit' => false,
         ],
 
+        'sqs-fifo' => [
+            'driver' => 'sqs-fifo',
+            'key' => env('AWS_ACCESS_KEY_ID'),
+            'secret' => env('AWS_SECRET_ACCESS_KEY'),
+            'prefix' => env('SQS_FIFO_PREFIX', 'https://sqs.us-east-1.amazonaws.com/your-account-id'),
+            'queue' => env('SQS_FIFO_QUEUE', 'default.fifo'),
+            'suffix' => env('SQS_FIFO_SUFFIX'),
+            'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
+            'after_commit' => false,
+            'group' => 'default',
+            'deduplicator' => env('SQS_FIFO_DEDUPLICATOR', 'unique'),
+            'allow_delay' => env('SQS_FIFO_ALLOW_DELAY', false),
+        ],
     ],
 
     /*
